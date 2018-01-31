@@ -42,7 +42,7 @@ int main(int ac, char **av)
 	return_val = game_begin(av, map);
 	if (return_val == -1) {
 		free(map);
-		return (84);
+		return (0);
 	}
 	free(map);
 	return (return_val);

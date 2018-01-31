@@ -18,10 +18,7 @@ static int *create_matches(char *map, int *matches, int match_max)
 		if (map[aba] == '|')
 			match += 1;
 		if (map[aba] == '\n') {
-			if (match_max < match)
-				matches[line] = match_max;
-			else
-				matches[line] = match;
+			matches[line] = match;
 			line += 1;
 			match = 0;
 		}
@@ -42,7 +39,6 @@ static int calcul_res(int *matches, int match_max)
 		result = result ^ matches[i];
 		i += 1;
 	}
-	result = result % (match_max + 1);
 	return (result);
 }
 
@@ -59,8 +55,10 @@ static void adapt_output(int *line, int *result, int *matches, int match_max)
 			*line = i;
 		i += 1;
 	}
-	while (matches[*line] < *result) {
-		*result = (*result % matches[*line]) + 1;
+	if (matches[*line] < *result) {
+		*result = *result % (matches[*line] + 1);
+	} else if (matches[*line] - *result <= 0) {
+		*result -= 1;
 	}
 }
 
