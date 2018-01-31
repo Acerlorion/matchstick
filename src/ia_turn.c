@@ -60,6 +60,9 @@ static void adapt_output(int *line, int *result, int *matches, int match_max)
 	} else if (matches[*line] - *result <= 0) {
 		*result -= 1;
 	}
+	if (*result > match_max) {
+		*result = *result % (match_max + 1);
+	}
 }
 
 char *ia_turn(char *map, char **av)
