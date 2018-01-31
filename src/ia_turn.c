@@ -39,11 +39,11 @@ static int calcul_res(int *matches, int match_max)
 		result = result ^ matches[i];
 		i += 1;
 	}
-	result = (result % match_max) + 1;
+	result = result % (match_max + 1);
 	return (result);
 }
 
-static void adapt_output(int *line, int *result, int *matches)
+static void adapt_output(int *line, int *result, int *matches, int match_max)
 {
 	int i = 0;
 
@@ -57,7 +57,10 @@ static void adapt_output(int *line, int *result, int *matches)
 		i += 1;
 	}
 	while (matches[*line] < *result) {
-		*result = *result / 2;
+		*result = (*result % matches[*line]) + 1;
+	}
+	while (*result != 1 && *result >= match_max) {
+		*result -= 1;
 	}
 }
 
@@ -72,7 +75,7 @@ char *ia_turn(char *map, char **av)
 	my_putstr("AI's turn...\n");
 	matches = create_matches(map, matches);
 	result = calcul_res(matches, match_max);
-	adapt_output(&line, &result, matches);
+	adapt_output(&line, &result, matches, match_max);
 	ia_action(result, line);
 	map = change_map(line, result, map);
 	free(matches);
