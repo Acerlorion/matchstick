@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include "stick.h"
 
-static int *create_matches(char *map, int *matches)
+static int *create_matches(char *map, int *matches, int match_max)
 {
 	int line = 0;
 	int match = 0;
@@ -18,7 +18,10 @@ static int *create_matches(char *map, int *matches)
 		if (map[aba] == '|')
 			match += 1;
 		if (map[aba] == '\n') {
-			matches[line] = match;
+			if (match_max < match)
+				matches[line] = match_max;
+			else
+				matches[line] = match;
 			line += 1;
 			match = 0;
 		}
@@ -59,9 +62,6 @@ static void adapt_output(int *line, int *result, int *matches, int match_max)
 	while (matches[*line] < *result) {
 		*result = (*result % matches[*line]) + 1;
 	}
-	while (*result != 1 && *result >= match_max) {
-		*result -= 1;
-	}
 }
 
 char *ia_turn(char *map, char **av)
@@ -73,9 +73,11 @@ char *ia_turn(char *map, char **av)
 	int *matches = malloc(sizeof(int) * (line_max + 2));
 
 	my_putstr("AI's turn...\n");
-	matches = create_matches(map, matches);
+	matches = create_matches(map, matches, match_max);
 	result = calcul_res(matches, match_max);
 	adapt_output(&line, &result, matches, match_max);
+	if (result == 0)
+		result = 1;
 	ia_action(result, line);
 	map = change_map(line, result, map);
 	free(matches);
