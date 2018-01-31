@@ -5,6 +5,7 @@
 ** check match
 */
 
+#include <stdlib.h>
 #include "stick.h"
 
 static int joke_fonction(int match_nb, int pipe_nb, char *match)
@@ -33,7 +34,7 @@ static int is_number(char *match)
 	return (0);
 }
 
-int verif_match(char *match, int match_max, int *good, int pipe_nb)
+static int verif_match(char *match, int match_max, int *good, int pipe_nb)
 {
 	int match_nb = 0;
 
@@ -50,5 +51,28 @@ int verif_match(char *match, int match_max, int *good, int pipe_nb)
 		my_put_nbr(match_max);
 		my_putstr(" matches per turn\n");
 	}
+	return (match_nb);
+}
+
+int matches_nbr(char **av, int i, char *map, int *good)
+{
+	int match_max = my_getnbr(av[2]);
+	char *match = NULL;
+	int match_nb = 0;
+	int pipe_nb = 0;
+
+	while (map[i] != '\n') {
+		if (map[i] == '|')
+			pipe_nb += 1;
+		i += 1;
+	}
+	my_putstr("Matches: ");
+	match = get_next_line(0);
+	if (match == NULL) {
+		my_putstr("\nError: this pipe is out of range\n");
+		return (-1);
+	}
+	match_nb = verif_match(match, match_max, good, pipe_nb);
+	free(match);
 	return (match_nb);
 }

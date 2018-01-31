@@ -75,29 +75,17 @@ static int line_nbr(char **av, char *map)
 	return (line_nb);
 }
 
-static int matches_nbr(char **av, int match_max, int i, char *map)
+static int go_to_goodline(char *map, int line_nb)
 {
-	char *match = NULL;
-	int good = 0;
-	int match_nb = 0;
-	int pipe_nb = 0;
+	int cpt = 0;
+	int i = 0;
 
-	while (map[i] != '\n') {
-		if (map[i] == '|')
-			pipe_nb += 1;
+	while (cpt != line_nb) {
+		if (map[i] == '\n')
+			cpt += 1;
 		i += 1;
 	}
-	while (good == 0) {
-		my_putstr("Matches: ");
-		match = get_next_line(0);
-		if (match == NULL) {
-			my_putstr("\nError: this pipe is out of range\n");
-			return (-1);
-		}
-		match_nb = verif_match(match, match_max, &good, pipe_nb);
-		free(match);
-	}
-	return (match_nb);
+	return (i);
 }
 
 char *player_turn(char **av, char *map)
@@ -106,19 +94,18 @@ char *player_turn(char **av, char *map)
 	int match_nb = 0;
 	int cpt = 0;
 	int i = 0;
+	int good = 0;
 
 	my_putstr("Your turn:\n");
-	line_nb = line_nbr(av, map);
-	if (line_nb == -1)
-		return (NULL);
-	while (cpt != line_nb) {
-		if (map[i] == '\n')
-			cpt += 1;
-		i += 1;
+	while (good == 0) {
+		line_nb = line_nbr(av, map);
+		if (line_nb == -1)
+			return (NULL);
+		i = go_to_goodline(map, line_nb);
+		match_nb = matches_nbr(av, i, map, &good);
+		if (match_nb == -1)
+			return (NULL);
 	}
-	match_nb = matches_nbr(av, my_getnbr(av[2]), i, map);
-	if (match_nb == -1)
-		return (NULL);
 	player_action(match_nb, line_nb);
 	map = change_map(line_nb, match_nb, map);
 	return (map);

@@ -19,7 +19,7 @@ int test_end(char *);
 char *get_next_line(int);
 void my_putchar(char);
 int my_put_nbr(int);
-int verif_match(char *, int, int *, int);
+int matches_nbr(char **, int, char *, int *);
 char *change_map(int, int, char *);
 void ia_action(int, int);
 void player_action(int, int);
