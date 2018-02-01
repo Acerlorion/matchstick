@@ -69,7 +69,6 @@ int matches_nbr(char **av, int i, char *map, int *good)
 	my_putstr("Matches: ");
 	match = get_next_line(0);
 	if (match == NULL) {
-		my_putstr("\nError: this pipe is out of range\n");
 		return (-1);
 	}
 	match_nb = verif_match(match, match_max, good, pipe_nb);

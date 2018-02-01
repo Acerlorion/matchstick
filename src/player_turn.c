@@ -64,7 +64,6 @@ static int line_nbr(char **av, char *map)
 		my_putstr("Line: ");
 		line = get_next_line(0);
 		if (line == NULL) {
-			my_putstr("\nError: this line is out of range\n");
 			return (-1);
 		}
 		line_nb = verif_line(line, line_max, &good);
