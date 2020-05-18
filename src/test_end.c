@@ -7,12 +7,12 @@
 
 int test_end(char *map)
 {
-	int aba = 0;
+    int aba = 0;
 
-	while (map[aba]) {
-		if (map[aba] == '|')
-			return (0);
-		aba += 1;
-	}
-	return (1);
+    while (map[aba]) {
+        if (map[aba] == '|')
+            return (0);
+        aba += 1;
+    }
+    return (1);
 }

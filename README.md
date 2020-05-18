@@ -6,6 +6,8 @@ Ce projet a été fait par moi, Paul BEAUDUC, etudiant EPITECH.
 
 /// Compilation ///
 
+*Uniquement sur Linux*
+
 Lancez le Makefile avec "make" ou "make re". L'éxécutable s'appelle "matchstick".
 
 /// Execution ///

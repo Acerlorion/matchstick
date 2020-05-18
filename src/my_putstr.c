@@ -9,17 +9,17 @@
 
 int my_strlen(char const *str)
 {
-	int len = 0;
+    int len = 0;
 
-	while (str[len]) {
-		len++;
-	}
-	return (len);
+    while (str[len]) {
+        len++;
+    }
+    return (len);
 }
 
 void my_putstr( char const *str)
 {
-	int len = my_strlen(str);
+    int len = my_strlen(str);
 
-	write(1, str, len);
+    write(1, str, len);
 }
